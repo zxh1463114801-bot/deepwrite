@@ -1,0 +1,170 @@
+{
+  "passed": true,
+  "synthetic": true,
+  "iterations": 60,
+  "thresholds": {
+    "updateP95Ms": 40,
+    "heartbeatMaxMs": 120
+  },
+  "samples": [
+    {
+      "nestedObjects": 100,
+      "updateAverageMs": 0.046666666648040214,
+      "updateP95Ms": 0.19999999925494194,
+      "heartbeatP95Ms": 5.2999999998137355,
+      "heartbeatMaxMs": 5.2999999998137355,
+      "nestedPayloadReads": 0,
+      "toolUsage": {
+        "total": 1,
+        "succeeded": 1,
+        "directSucceeded": 1,
+        "normalizedSucceeded": 0,
+        "failed": 0,
+        "pending": 0,
+        "durationMs": 1000,
+        "byTool": [
+          {
+            "name": "synthetic_write",
+            "total": 1,
+            "succeeded": 1,
+            "directSucceeded": 1,
+            "normalizedSucceeded": 0,
+            "failed": 0,
+            "pending": 0,
+            "durationMs": 1000
+          }
+        ]
+      },
+      "statuses": [
+        "running",
+        "waiting_for_input",
+        "completed"
+      ],
+      "terminalReply": "start synthetic-0 synthetic-1 synthetic-2 synthetic-3 synthetic-4 synthetic-5 synthetic-6 synthetic-7 synthetic-8 synthetic-9 synthetic-10 synthetic-11 synthetic-12 synthetic-13 synthetic-14 synthetic-15 synthetic-16 synthetic-17 synthetic-18 synthetic-19 synthetic-20 synthetic-21 synthetic-22 synthetic-23 synthetic-24 synthetic-25 synthetic-26 synthetic-27 synthetic-28 synthetic-29 synthetic-30 synthetic-31 synthetic-32 synthetic-33 synthetic-34 synthetic-35 synthetic-36 synthetic-37 synthetic-38 synthetic-39 synthetic-40 synthetic-41 synthetic-42 synthetic-43 synthetic-44 synthetic-45 synthetic-46 synthetic-47 synthetic-48 synthetic-49 synthetic-50 synthetic-51 synthetic-52 synthetic-53 synthetic-54 synthetic-55 synthetic-56 synthetic-57 synthetic-58 synthetic-59"
+    },
+    {
+      "nestedObjects": 1000,
+      "updateAverageMs": 0.02666666666045785,
+      "updateP95Ms": 0.10000000055879354,
+      "heartbeatP95Ms": 5.5,
+      "heartbeatMaxMs": 5.5,
+      "nestedPayloadReads": 0,
+      "toolUsage": {
+        "total": 1,
+        "succeeded": 1,
+        "directSucceeded": 1,
+        "normalizedSucceeded": 0,
+        "failed": 0,
+        "pending": 0,
+        "durationMs": 1000,
+        "byTool": [
+          {
+            "name": "synthetic_write",
+            "total": 1,
+            "succeeded": 1,
+            "directSucceeded": 1,
+            "normalizedSucceeded": 0,
+            "failed": 0,
+            "pending": 0,
+            "durationMs": 1000
+          }
+        ]
+      },
+      "statuses": [
+        "running",
+        "waiting_for_input",
+        "completed"
+      ],
+      "terminalReply": "start synthetic-0 synthetic-1 synthetic-2 synthetic-3 synthetic-4 synthetic-5 synthetic-6 synthetic-7 synthetic-8 synthetic-9 synthetic-10 synthetic-11 synthetic-12 synthetic-13 synthetic-14 synthetic-15 synthetic-16 synthetic-17 synthetic-18 synthetic-19 synthetic-20 synthetic-21 synthetic-22 synthetic-23 synthetic-24 synthetic-25 synthetic-26 synthetic-27 synthetic-28 synthetic-29 synthetic-30 synthetic-31 synthetic-32 synthetic-33 synthetic-34 synthetic-35 synthetic-36 synthetic-37 synthetic-38 synthetic-39 synthetic-40 synthetic-41 synthetic-42 synthetic-43 synthetic-44 synthetic-45 synthetic-46 synthetic-47 synthetic-48 synthetic-49 synthetic-50 synthetic-51 synthetic-52 synthetic-53 synthetic-54 synthetic-55 synthetic-56 synthetic-57 synthetic-58 synthetic-59"
+    },
+    {
+      "nestedObjects": 5000,
+      "updateAverageMs": 0.03666666668529312,
+      "updateP95Ms": 0.10000000055879354,
+      "heartbeatP95Ms": 5.1000000005587935,
+      "heartbeatMaxMs": 5.1000000005587935,
+      "nestedPayloadReads": 0,
+      "toolUsage": {
+        "total": 1,
+        "succeeded": 1,
+        "directSucceeded": 1,
+        "normalizedSucceeded": 0,
+        "failed": 0,
+        "pending": 0,
+        "durationMs": 1000,
+        "byTool": [
+          {
+            "name": "synthetic_write",
+            "total": 1,
+            "succeeded": 1,
+            "directSucceeded": 1,
+            "normalizedSucceeded": 0,
+            "failed": 0,
+            "pending": 0,
+            "durationMs": 1000
+          }
+        ]
+      },
+      "statuses": [
+        "running",
+        "waiting_for_input",
+        "completed"
+      ],
+      "terminalReply": "start synthetic-0 synthetic-1 synthetic-2 synthetic-3 synthetic-4 synthetic-5 synthetic-6 synthetic-7 synthetic-8 synthetic-9 synthetic-10 synthetic-11 synthetic-12 synthetic-13 synthetic-14 synthetic-15 synthetic-16 synthetic-17 synthetic-18 synthetic-19 synthetic-20 synthetic-21 synthetic-22 synthetic-23 synthetic-24 synthetic-25 synthetic-26 synthetic-27 synthetic-28 synthetic-29 synthetic-30 synthetic-31 synthetic-32 synthetic-33 synthetic-34 synthetic-35 synthetic-36 synthetic-37 synthetic-38 synthetic-39 synthetic-40 synthetic-41 synthetic-42 synthetic-43 synthetic-44 synthetic-45 synthetic-46 synthetic-47 synthetic-48 synthetic-49 synthetic-50 synthetic-51 synthetic-52 synthetic-53 synthetic-54 synthetic-55 synthetic-56 synthetic-57 synthetic-58 synthetic-59"
+    }
+  ],
+  "lifecycle": {
+    "stopped": "stopped",
+    "error": "failed",
+    "write_approval": "waiting_for_user",
+    "approval_resumed": "running",
+    "proposal_review": "waiting_for_user",
+    "proposal_accepted": "completed",
+    "session_switch": "failed",
+    "removed": "failed"
+  },
+  "worker": {
+    "passed": true,
+    "realWebWorker": true,
+    "bytes": 1902917,
+    "successMs": 29,
+    "cancelled": "AbortError",
+    "parseFailure": "Conversation history detail could not be parsed.",
+    "declaredDetailLimit": "Synthetic detail limit",
+    "streamedDetailLimit": "Synthetic detail limit",
+    "totalLimit": "Synthetic total limit",
+    "created": 5,
+    "terminated": 5,
+    "replies": 3,
+    "errors": 0,
+    "urls": [
+      "http://example.test:5173/src/renderer/src/utils/conversationHistoryDetail.worker.ts?worker_file&type=module",
+      "http://example.test:5173/src/renderer/src/utils/conversationHistoryDetail.worker.ts?worker_file&type=module",
+      "http://example.test:5173/src/renderer/src/utils/conversationHistoryDetail.worker.ts?worker_file&type=module",
+      "http://example.test:5173/src/renderer/src/utils/conversationHistoryDetail.worker.ts?worker_file&type=module",
+      "http://example.test:5173/src/renderer/src/utils/conversationHistoryDetail.worker.ts?worker_file&type=module"
+    ]
+  },
+  "versions": {
+    "electron": "42.5.0",
+    "chrome": "148.0.7778.271",
+    "node": "24.17.0",
+    "platform": "win32"
+  },
+  "conversationUi": {
+    "synthetic": true,
+    "hiddenWindow": true,
+    "frameMetricScope": "Observed hidden-window scheduling; no foreground FPS claim.",
+    "turns": 100,
+    "enabled": true,
+    "mountedMs": 307.69999999925494,
+    "nodeCount": 5034,
+    "messageCount": 200,
+    "streamP95Ms": 7.400000000372529,
+    "frameP95Ms": 1003.2000000001863,
+    "inputP95Ms": 2.800000000745058,
+    "lockedDelta": 0,
+    "navigationOffset": 21.724998474121094,
+    "deferredGroups": 0
+  }
+}

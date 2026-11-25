@@ -147,7 +147,13 @@ export function useConversationRuntimeRegistryCoordinator(
           conversation.sessionId.value
         );
         if (!controllerIsCurrent(key, conversation, generation)) return;
-        await conversation.restorePersistenceHistory(snapshot);
+        const restored = await conversation.restorePersistenceHistory(snapshot);
+        if (
+          restored &&
+          controllerIsCurrent(key, conversation, generation) &&
+          "activeLoadError" in snapshot
+        )
+          warnPersistenceOnce(t("thePreviousConversationCouldNotBeOpened"));
       } else {
         const snapshot = await options.store.loadPersistence(persistenceKey, {
           force: retry

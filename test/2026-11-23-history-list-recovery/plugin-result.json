@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "fixed": true,
+  "checks": [
+    "Core ready",
+    "Real Core stores an active session larger than 32MiB",
+    "All three original histories remain visible",
+    "Another complete conversation opens successfully",
+    "Oversized selection cannot overwrite the complete record or current conversation"
+  ],
+  "largeBytes": 41943215,
+  "historyRows": 3
+}

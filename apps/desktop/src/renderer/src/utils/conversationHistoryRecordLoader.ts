@@ -16,6 +16,11 @@ import {
   HistoryReadCancelledError,
   HistoryReadConflictError
 } from "../composables/conversation-history-reader/types";
+import {
+  MAX_CONVERSATION_HISTORY_DETAIL_BYTES,
+  MAX_CONVERSATION_HISTORY_RECORD_BYTES
+} from "./conversationHistoryLimits";
+import type { ConversationHistoryStreamBudget } from "./conversationHistoryDetailMaterializer";
 
 const t = createScopedTranslator("workspace.conversationHistoryRecordLoader");
 
@@ -50,20 +55,55 @@ function setLoadedField(
   });
 }
 
+function assertDetailCapacity(reference: {
+  encoding: "text" | "json";
+  byteLength: number;
+}) {
+  if (
+    reference.encoding === "json" &&
+    reference.byteLength > MAX_CONVERSATION_HISTORY_DETAIL_BYTES
+  )
+    throw new Error(t("historyDetailExceedsTheSafeLoadingSize"));
+}
+
+const encoder = new TextEncoder();
+
+function jsonByteLength(value: ConversationHistoryJson) {
+  return encoder.encode(JSON.stringify(value)).byteLength;
+}
+
+function addActualBytes(
+  budget: ConversationHistoryStreamBudget,
+  byteLength: number
+) {
+  budget.receivedBytes += byteLength;
+  if (budget.receivedBytes > MAX_CONVERSATION_HISTORY_RECORD_BYTES)
+    throw new Error(t("streamedHistoryExceedsTheSafeLoadingSize"));
+}
+
+function assertRecordCapacity(byteLength: number) {
+  if (byteLength > MAX_CONVERSATION_HISTORY_RECORD_BYTES)
+    throw new Error(t("conversationExceedsTheSafeLoadingSize"));
+}
+
 async function materializeForActiveController(
   reader: ConversationHistoryReadSession,
   target: HistoryDetailTarget,
+  budget: ConversationHistoryStreamBudget,
   signal?: AbortSignal
-): Promise<ConversationHistoryJson> {
-  // The active controller still owns its full functional message record. This
-  // explicit materialization is not retained by the bounded projection cache.
-  const chunks: string[] = [];
-  for await (const part of reader.streamDetail(target, signal))
-    chunks.push(part.chunk);
-  const text = chunks.length === 1 ? chunks[0]! : chunks.join("");
-  return target.encoding === "text"
-    ? text
-    : (JSON.parse(text) as ConversationHistoryJson);
+) {
+  const { materializeConversationHistoryDetail } =
+    await import("./conversationHistoryDetailMaterializer");
+  return materializeConversationHistoryDetail(
+    reader,
+    target,
+    budget,
+    {
+      detail: t("historyDetailExceedsTheSafeLoadingSize"),
+      total: t("streamedHistoryExceedsTheSafeLoadingSize")
+    },
+    signal
+  );
 }
 
 /** Only the selected session is materialized; other sessions remain lightweight history items. */
@@ -86,6 +126,12 @@ export async function loadConversationHistoryRecord(
     ));
   if (!session || (session.deleted && !options.allowDeleted))
     throw new Error(t("thisConversationNoLongerExistsOrHasBeenDeleted"));
+  if (session.byteLength > MAX_CONVERSATION_HISTORY_RECORD_BYTES)
+    throw new Error(t("conversationExceedsTheSafeLoadingSize"));
+  if (session.metadataByteLength !== undefined)
+    assertRecordCapacity(session.metadataByteLength);
+  for (const reference of session.metadataDetails ?? [])
+    assertDetailCapacity(reference);
   // Empty histories need only the lightweight index. Load the page/detail
   // reader after a real session has been found, or on explicit history selection.
   const { createConversationHistoryReader } =
@@ -97,7 +143,19 @@ export async function loadConversationHistoryRecord(
     session.revision
   );
   try {
+    const streamBudget: ConversationHistoryStreamBudget = { receivedBytes: 0 };
     const metadata = clonePersistenceRecord(session.metadata);
+    const inlineMetadataBytes = jsonByteLength(metadata);
+    addActualBytes(streamBudget, inlineMetadataBytes);
+    let declaredRecordBytes = Math.max(
+      session.metadataByteLength ?? 0,
+      inlineMetadataBytes +
+        (session.metadataDetails ?? []).reduce(
+          (total, reference) => total + reference.byteLength,
+          0
+        )
+    );
+    assertRecordCapacity(declaredRecordBytes);
     for (const reference of session.metadataDetails ?? []) {
       if (
         reference.path.length &&
@@ -107,6 +165,7 @@ export async function loadConversationHistoryRecord(
       const value = await materializeForActiveController(
         reader,
         { ...reference, kind: "metadata" },
+        streamBudget,
         options.signal
       );
       if (reference.path.length)
@@ -129,7 +188,19 @@ export async function loadConversationHistoryRecord(
       );
       for (const message of page.messages) {
         let value = clonePersistenceRecord(message.value);
+        const inlineMessageBytes = jsonByteLength(value);
+        addActualBytes(streamBudget, inlineMessageBytes);
+        declaredRecordBytes += Math.max(
+          message.byteLength,
+          inlineMessageBytes +
+            message.details.reduce(
+              (total, reference) => total + reference.byteLength,
+              0
+            )
+        );
+        assertRecordCapacity(declaredRecordBytes);
         for (const reference of message.details) {
+          assertDetailCapacity(reference);
           const detail = await materializeForActiveController(
             reader,
             {
@@ -137,6 +208,7 @@ export async function loadConversationHistoryRecord(
               path: [...reference.path],
               messageId: message.messageId
             },
+            streamBudget,
             options.signal
           );
           if (reference.path.length)

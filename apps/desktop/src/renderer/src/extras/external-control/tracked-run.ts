@@ -52,6 +52,31 @@ export function trackExternalRun(
   let identityKey = "";
   let stopWatching = (): void => undefined;
 
+  function lifecycleState() {
+    return conversation.messages.value.map((message) => {
+      const identity = [message.id, message.runId, message.role];
+      const matchesRun =
+        message.role === "assistant" &&
+        (message.id === assistant.id ||
+          (internalRunId !== undefined && message.runId === internalRunId));
+      if (!matchesRun) return identity;
+      return [
+        ...identity,
+        message.status,
+        message.errorMessage,
+        ...(message.editProposals ?? []).flatMap(({ id, status }) => [
+          id,
+          status
+        ])
+      ];
+    });
+  }
+
+  function pendingInputState() {
+    const pending = conversation.pendingUserInput.value;
+    return pending ? [pending.source, pending.questions] : null;
+  }
+
   function refresh(): ExternalAgentRun {
     if (finished) return snapshot;
     internalRunId ??= assistant.runId;
@@ -172,14 +197,13 @@ export function trackExternalRun(
 
   stopWatching = watch(
     [
-      conversation.messages,
+      lifecycleState,
       conversation.activeRunId,
       conversation.sessionId,
       conversation.isBusy,
-      conversation.pendingUserInput
+      pendingInputState
     ],
-    refresh,
-    { deep: true }
+    refresh
   );
   refresh();
   return {

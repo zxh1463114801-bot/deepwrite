@@ -1,4 +1,5 @@
 import type { ConversationHistoryApi } from "@deepwrite/contracts";
+import { createId } from "@deepwrite/shared";
 import { loadConversationHistoryRecord } from "../utils/conversationHistoryRecordLoader";
 import { listConversationHistoryIndex } from "../utils/conversationHistoryIndex";
 import type { UseAgentConversationOptions } from "./useAgentConversation";
@@ -42,10 +43,21 @@ export function createConversationRegistryHistory(
     )
       ? index.activeSessionId!
       : (index.items[0]?.sessionId ?? fallbackSessionId);
-    const active = index.items.length
-      ? await loadConversationHistoryRecord(api, key, activeSessionId)
-      : undefined;
-    return { ...index, activeSessionId, ...(active ? { active } : {}) };
+    if (!index.items.length) return { ...index, activeSessionId };
+    try {
+      const active = await loadConversationHistoryRecord(
+        api,
+        key,
+        activeSessionId
+      );
+      return { ...index, activeSessionId, active };
+    } catch (activeLoadError: unknown) {
+      // An unloaded persisted session must never become an empty writable record.
+      let recoverySessionId = fallbackSessionId;
+      while (index.items.some((item) => item.sessionId === recoverySessionId))
+        recoverySessionId = createId("session");
+      return { ...index, activeSessionId: recoverySessionId, activeLoadError };
+    }
   }
   return { hooks, initialHistory };
 }

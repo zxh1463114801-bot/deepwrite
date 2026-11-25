@@ -73,6 +73,9 @@ export default {
       "此历史对话已不存在或已删除。",
     invalidHistoryMetadata: "历史元数据格式无效。",
     invalidHistoryMessageFormat: "历史消息格式无效。",
+    conversationExceedsTheSafeLoadingSize: "此历史对话超过安全加载大小。",
+    historyDetailExceedsTheSafeLoadingSize: "历史详情超过安全加载大小。",
+    streamedHistoryExceedsTheSafeLoadingSize: "历史流数据超过安全加载大小。",
     historyMessageIdentifiersDoNotMatchTheCurrentConversation:
       "历史消息标识不一致，未替换当前对话。",
     theHistoryPaginationCursorDidNotAdvance: "历史分页游标没有向前移动。",
@@ -275,6 +278,8 @@ export default {
       "应用关闭或对话恢复时，子任务尚未开始。"
   },
   conversationRuntimeRegistryCoordinator: {
+    thePreviousConversationCouldNotBeOpened:
+      "上次会话未能自动打开，请从历史列表选择其他对话。",
     conversationHistoryCouldNotBeSavedLocallyYouCan:
       "历史对话暂时无法保存到本机，本次运行中仍可继续切换",
     conversationHistoryMigrationIsIncompleteTheOriginalRecordsHave:

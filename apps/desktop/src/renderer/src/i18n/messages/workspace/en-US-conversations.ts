@@ -78,6 +78,12 @@ export default {
       "This conversation no longer exists or has been deleted.",
     invalidHistoryMetadata: "Invalid history metadata.",
     invalidHistoryMessageFormat: "Invalid history message format.",
+    conversationExceedsTheSafeLoadingSize:
+      "This conversation exceeds the safe loading size.",
+    historyDetailExceedsTheSafeLoadingSize:
+      "A conversation history detail exceeds the safe loading size.",
+    streamedHistoryExceedsTheSafeLoadingSize:
+      "The streamed history exceeds the safe loading size.",
     historyMessageIdentifiersDoNotMatchTheCurrentConversation:
       "History message identifiers do not match. The current conversation has been preserved.",
     theHistoryPaginationCursorDidNotAdvance:
@@ -291,6 +297,8 @@ export default {
       "The subtask had not started when the app closed or the conversation was restored."
   },
   conversationRuntimeRegistryCoordinator: {
+    thePreviousConversationCouldNotBeOpened:
+      "The previous conversation could not be opened automatically. Select another conversation from history.",
     conversationHistoryCouldNotBeSavedLocallyYouCan:
       "Conversation history could not be saved locally. You can still switch conversations during this session.",
     conversationHistoryMigrationIsIncompleteTheOriginalRecordsHave:

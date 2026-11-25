@@ -119,6 +119,8 @@ grep -o '"pid":[0-9]*' ~/.deepwrite/control-dev/control.json || echo "control.js
 
 | 日期 | 主题 | 结论 | 报告 |
 | --- | --- | --- | --- |
+| 2026-11-23 | 活动大历史失败时保留会话列表 | 36项及完整应用验证通过 | [报告](test/2026-11-23-history-list-recovery.md) |
+| 2026-11-22 | 外部任务与大历史无响应修复 | 121 项相关回归、构建、类型、静态检查与桌面冒烟通过 | [报告](test/2026-11-22-conversation-freeze.md) |
 | 2026-11-20 | 左侧创作目录统一长按拖拽排序 | 83项单测、预算与桌面通过 | [报告](test/2026-11-20-sidebar-creation-row-order-drag.md) |
 | 2026-11-20 | 学术框架阶段拖动排序 | 长按、边缘滚动与重开通过 | [报告](test/2026-11-20-academic-framework-drag.md) |
 | 2026-11-20 | 绑定列表技能分区 | 三段展示与保存重开通过 | [报告](test/2026-11-20-book-skill-binding-sections.md) |

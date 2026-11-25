@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "transport": "file:",
+  "productionCsp": true,
+  "restoredBytes": 2097152,
+  "workersCreated": 1,
+  "workersTerminated": 1,
+  "elapsedMs": 25.4
+}
